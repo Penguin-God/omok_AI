@@ -22,7 +22,7 @@ def readfile(file_name_path):
             split_fur = split_ini[i].split(' ')
 
             if board_size*board_size <= cnt:
-                break;
+                break
 
             elif split_fur[-1] != '\n':
                 board_vec[cnt] = split_fur[-1]
