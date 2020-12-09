@@ -62,7 +62,7 @@ def data_aug(board_data): # 1개의 데이터를 회전, 반전으로 12개로 �
 
 ### set parameters
 learning_rate = 0.001
-training_epochs = 30
+training_epochs = 100
 batch_size = 100
 board_size = 15
 file_path = 'training_data/txt/' # 학습 기보 저장된 폴더
