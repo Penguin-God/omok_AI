@@ -130,14 +130,20 @@ class MyApp(QWidget):
         self.resize(500,500)
         self.show()
 
-
-    def game_play(self, board_img, ball, pos_x, pos_y, turn):
+    def game_play(self, board_img, ball, pos_x, pos_y, turn, AI_win):
         #human
 
         ball_size = ball.shape[0]
         step_size = 56
         off_set = 10
 
+        # 게임 결과 확인
+        if AI_win:
+            print('게임이 끝났습니다.')
+            self.game_end = 2
+            board_img = cv2.cvtColor(board_img, cv2.COLOR_RGB2BGR)
+            print('AI_win')
+            return board_img
         # 판의 마지막 모서리에는 돌을 두지 못하게 한다.
         if pos_x < step_size/2+off_set+1 or pos_y < step_size/2+off_set+1:
             print('그곳에는 둘 수 없습니다')
@@ -163,18 +169,11 @@ class MyApp(QWidget):
                 
                 board_img[x_step:x_step+ball_size,y_step:y_step+ball_size] = ball
 
-                # 게임 결과 확인
-                if self.game_rule(self.board, turn):
-                    self.game_end = 1
-
+                if self.game_rule(self.board, turn) == 1:
                     print('게임이 끝났습니다.')
-
+                    self.game_end = 2
                     board_img = cv2.cvtColor(board_img, cv2.COLOR_RGB2BGR)
-                    
-
                     print('축하합니다 당신이 승리 하였습니다')
-
-
                                   
         return board_img
 
@@ -207,7 +206,7 @@ class MyApp(QWidget):
 
             # 흑돌 사람 게임 플레이
 
-            self.board_cv2 = self.game_play(self.board_cv2, self.black_ball, y, x, 1)
+            self.board_cv2 = self.game_play(self.board_cv2, self.black_ball, y, x, 1, False)
            
             save_name =  'result/' + str(self.cnt) + "board_black.png"
             save_name_w = 'result/' + str(self.cnt) + "board_white.png"
@@ -255,14 +254,13 @@ class MyApp(QWidget):
             #self.board_history[step_x-1,step_y-1] = self.cnt
             
             #self.board_cv2 = self.game_play(self.board_cv2, self.white_ball, y, x, 2)
-                
+            if(self.game_rule(self.board, 2)):
+                self.game_play(self.board_cv2, self.black_ball, y, x, 1, True)
            
             height, width, channel = self.board_cv2.shape
             bytesPerLine = 3 * width
             qImg_board = QImage(self.board_cv2.data, width, height, bytesPerLine, QImage.Format_RGB888)
             self.lbl_img.setPixmap(QPixmap(qImg_board))
-
-
 
     def game_rule(self, board, player): # 추후 오목 국룰 (렌주룰) 도입 예정
     
