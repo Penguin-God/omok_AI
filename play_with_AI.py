@@ -255,7 +255,7 @@ class MyApp(QWidget):
             
             #self.board_cv2 = self.game_play(self.board_cv2, self.white_ball, y, x, 2)
             if(self.game_rule(self.board, 2)):
-                self.game_play(self.board_cv2, self.black_ball, y, x, 1, True)
+                self.board_cv2 = self.game_play(self.board_cv2, self.black_ball, y, x, 1, True)
            
             height, width, channel = self.board_cv2.shape
             bytesPerLine = 3 * width
