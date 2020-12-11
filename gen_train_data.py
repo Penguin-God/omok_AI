@@ -142,6 +142,7 @@ class MyApp(QWidget):
             bytesPerLine = 3 * width
             qImg_board = QImage(self.board_cv2.data, width, height, bytesPerLine, QImage.Format_RGB888)
             self.lbl_img.setPixmap(QPixmap(qImg_board))
+            self.board_cv2 = self.game_play(self.board_cv2, self.white_ball, y, x, 2)
 
 
 
@@ -209,7 +210,6 @@ class MyApp(QWidget):
         return game_result
 
     def save_history(self):
-
         result=np.array(self.board_history).flatten()
         f = open(self.save_name, 'w')
 
